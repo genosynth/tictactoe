@@ -1,0 +1,38 @@
+body {
+    text-align: center;
+    font-family: sans-serif;
+    
+}
+
+#status {
+    text-align: center;
+    font-size: large;
+    
+
+}
+
+#gameBoard {
+    
+    display: flex;
+
+    width:40%;
+    flex-wrap: wrap;
+    margin: auto;
+    
+}
+
+.boxes {
+    border: solid black;
+    flex-grow: 1;
+    width: 32%;
+    height: 80px;
+    font-size: 65px;    
+    text-align: center;
+}
+
+.boxes:hover {
+    background-color: lightgrey;
+}
+
+
+

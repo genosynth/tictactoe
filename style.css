@@ -6,7 +6,8 @@ body {
 
 #status {
     text-align: center;
-    font-size: large;
+    font-size: 30px;
+    padding-top: 20px;
     
 
 }
@@ -21,18 +22,47 @@ body {
     
 }
 
-.boxes {
+#holder {
+    padding: 20px;
+}
+
+.boxes, .boxes2 {
     border: solid black;
     flex-grow: 1;
     width: 32%;
     height: 80px;
     font-size: 65px;    
     text-align: center;
+    
+    
 }
 
 .boxes:hover {
-    background-color: lightgrey;
+    background-color: rgb(18, 64, 216);
 }
 
+.boxes2:hover {
+    background-color: #ff4747;
+}
 
+.blink_me, .blink_me2 {
+    animation: blinker 2s linear infinite;
 
+    border: solid black;
+    flex-grow: 1;
+    width: 32%;
+    height: 80px;
+    font-size: 65px;    
+    text-align: center;
+    background-color: rgb(20, 40, 218);
+  }
+  
+  @keyframes blinker {
+    50% {
+      opacity: 35%;
+    }
+  }
+
+  .blink_me2 {
+    background-color: rgb(255, 196, 196);
+  }

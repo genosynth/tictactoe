@@ -1,20 +1,20 @@
-let gameBoardArray = ["Z","Z","Z","Z","Z","Z","Z","Z","Z"];
+let gameBoardArray = ["Z","Z","Z","Z","Z","Z","Z","Z","Z"]; //"Z" means blank 
 let gameBoardDiv = document.getElementById("gameBoard");
 let htmlBoxes;
 let status = document.getElementById("status");
-const playerFactory = (name,marker) => { //factory function to return a marker for each player
-    return {name,marker};
+const playerFactory = (name,marker,hover, result) => { //factory function to return a marker for each player
+    return {name,marker, hover, result };
 
 }
 
-const player1 = playerFactory("Player 1","X"); //creates player 1 with marker X
-const player2 = playerFactory("Player 2","O"); // creates player 2 with marker O
+const player1 = playerFactory("Player 1","X","boxes"); //creates player 1 with marker X
+const player2 = playerFactory("Player 2","O" ,"boxes2"); // creates player 2 with marker O
 var currentPlayer = player1; 
 
 
 for (let i=0; i<gameBoardArray.length; i++){ //Creates elements (boxes) inside gameBoard
     let div = document.createElement("div");
-    div.className="boxes";
+    div.className=currentPlayer.hover;
     gameBoardDiv.appendChild(div);
 
 
@@ -24,13 +24,17 @@ for (let i=0; i<gameBoardArray.length; i++){ //Creates elements (boxes) inside g
 for (let i=0; i<gameBoardArray.length; i++){ //adds event listener for each button and each time swaps the player's marker
     
     
-    htmlBoxes = document.querySelectorAll(".boxes");
-
+    htmlBoxes = document.querySelectorAll("."+currentPlayer.hover);
+ 
     htmlBoxes[i].addEventListener("click", function(){
-        if (gameBoardArray[i]=="Z"){ //does not write if box is already marked
+        
+        if (player1.result=="Win" || player2.result=="Win"){return}
+        
+        if (gameBoardArray[i]=="Z"){ //writes only if empty i.e "Z" in array
             gameBoardArray[i]=currentPlayer.marker;
-            if (currentPlayer==player1){drawMarkers(); currentPlayer = player2; return;}
-            if (currentPlayer==player2){drawMarkers(); currentPlayer = player1; return}            
+            
+            if (currentPlayer==player1){ drawMarkers(); currentPlayer = player2; drawMarkers(); return;}
+            if (currentPlayer==player2){ drawMarkers(); currentPlayer = player1; drawMarkers(); return}            
         }   
     })   
     
@@ -38,7 +42,13 @@ for (let i=0; i<gameBoardArray.length; i++){ //adds event listener for each butt
 
 
 function drawMarkers() { // these functions draws all the elements in the array if not Z
+    
+    if (player1.result=="Win" || player2.result=="Win"){
+        return;
+    }
+
     for (let i=0; i<gameBoardArray.length; i++){
+        htmlBoxes[i].className = currentPlayer.hover;
         if (gameBoardArray[i]!="Z"){
             htmlBoxes[i].innerText = gameBoardArray[i];
         }
@@ -58,17 +68,67 @@ combinations(6,7,8);
 combinations(2,4,6);
 combinations(0,4,8);
 combinations(3,4,5);
-    
+combinations(1,4,7);
+
+for (let box in gameBoardArray){
+    if (gameBoardArray[box]=="Z"){
+        return;
+    }
+}
+
+if (player1.result!="Win" && player2.result!="Win"){
+    status.innerText="It's a draw";
+    createResetButton();
+    }
 
 }
 
-function combinations(num1,num2,num3){
+function combinations(num1,num2,num3){ //takes the spots of the gameboard as numbers and sets result if true
     if (gameBoardArray[num1] =="X" && gameBoardArray[num2] =="X" && gameBoardArray[num3] =="X"){
-        status.innerText="Player 1 Wins"
+        status.innerText="Player 1 Wins";
+        createResetButton();
+        player1.result = "Win";
+        htmlBoxes[num1].className = "blink_me"; //sets css to flash the winning boxes
+        htmlBoxes[num2].className = "blink_me";
+        htmlBoxes[num3].className = "blink_me";
+        
+
     }
 
     if (gameBoardArray[num1] =="O" && gameBoardArray[num2] =="O" && gameBoardArray[num3] =="O"){
-        status.innerText="Player 2 Wins"
+        status.innerText="Player 2 Wins";
+        createResetButton();
+        player2.result = "Win";
+        htmlBoxes[num1].className = "blink_me2"; //sets css to flash the winning boxes
+        htmlBoxes[num2].className = "blink_me2";
+        htmlBoxes[num3].className = "blink_me2";
+        
     }
 
+}
+
+function createResetButton(){ //Creates a play again button
+    let btn = document.createElement("button");
+    btn.innerText="Play Again";
+    let holder = document.getElementById("holder");
+    holder.innerHTML=""; //removes any button    
+    btn.addEventListener("click", function () {
+        gameBoardArray = ["Z","Z","Z","Z","Z","Z","Z","Z","Z"];
+        player1.result="";
+        player2.result="";
+        drawMarkers();
+        holder.innerText="";
+       
+      
+        let boxes = document.querySelectorAll("." +currentPlayer.hover);
+        let blink_me = document.querySelectorAll(".blink_me");
+        let blink_me2 = document.querySelectorAll(".blink_me2")
+        for (let box in boxes){boxes[box].innerText="";}
+        for (let blink in blink_me){blink_me[blink].innerText="";blink_me[blink].className=currentPlayer.hover }
+        for (let blink in blink_me2){blink_me2[blink].innerText="";blink_me2[blink].className=currentPlayer.hover }
+        status.innerText="";
+    })
+
+    holder.appendChild(btn);
+    
 }

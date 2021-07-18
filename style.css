@@ -1,6 +1,8 @@
 body {
     text-align: center;
-    font-family: sans-serif;
+    font-family: 'Otomanopee One', sans-serif;
+    background-color: cornsilk;
+    
     
 }
 
@@ -15,7 +17,9 @@ body {
 #gameBoard {
     
     display: flex;
-
+    font-family: sans-serif;
+    font-weight: bold;
+    
     width:40%;
     flex-wrap: wrap;
     margin: auto;
@@ -26,13 +30,14 @@ body {
     padding: 20px;
 }
 
-.boxes, .boxes2 {
+.boxes, .boxes2, .boxesGreyed {
     border: solid black;
     flex-grow: 1;
     width: 32%;
     height: 80px;
     font-size: 65px;    
     text-align: center;
+      
     
     
 }
@@ -66,3 +71,31 @@ body {
   .blink_me2 {
     background-color: rgb(255, 196, 196);
   }
+
+  #scoreBoard {
+      display: flex;
+  }
+
+  #scoreBoard h2{
+    margin: auto;
+    font-size: 30px;
+  }
+
+  h1 {
+      font-size: 80px;
+  }
+
+  .boxesGreyed:hover { /* used for already marked boxes*/
+      background-color: rgb(192, 192, 192);
+  }
+
+
+
+  .choice1:hover {
+      color: blue;
+
+  }
+  .choice2:hover {
+    color: red;
+
+}

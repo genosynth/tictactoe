@@ -2,13 +2,13 @@ let gameBoardArray = ["Z","Z","Z","Z","Z","Z","Z","Z","Z"]; //"Z" means blank
 let gameBoardDiv = document.getElementById("gameBoard");
 let htmlBoxes;
 let status = document.getElementById("status");
-const playerFactory = (name,marker,hover, result) => { //factory function to return a marker for each player
-    return {name,marker, hover, result };
+const playerFactory = (name, marker, hover,score, result) => {
+    //factory function to return a marker for each player
+    return { name, marker, hover,score, result };
+  };
 
-}
-
-const player1 = playerFactory("Player 1","X","boxes"); //creates player 1 with marker X
-const player2 = playerFactory("Player 2","O" ,"boxes2"); // creates player 2 with marker O
+const player1 = playerFactory("Player 1","X","boxes", 0); //creates player 1 with marker X
+const player2 = playerFactory("Player 2","O" ,"boxes2", 0); // creates player 2 with marker O
 var currentPlayer = player1; 
 
 
@@ -49,8 +49,10 @@ function drawMarkers() { // these functions draws all the elements in the array 
 
     for (let i=0; i<gameBoardArray.length; i++){
         htmlBoxes[i].className = currentPlayer.hover;
+        
         if (gameBoardArray[i]!="Z"){
             htmlBoxes[i].innerText = gameBoardArray[i];
+            htmlBoxes[i].className = "boxesGreyed";
         }
     }
     
@@ -86,6 +88,7 @@ if (player1.result!="Win" && player2.result!="Win"){
 function combinations(num1,num2,num3){ //takes the spots of the gameboard as numbers and sets result if true
     if (gameBoardArray[num1] =="X" && gameBoardArray[num2] =="X" && gameBoardArray[num3] =="X"){
         status.innerText="Player 1 Wins";
+        player1.score+=1;
         createResetButton();
         player1.result = "Win";
         htmlBoxes[num1].className = "blink_me"; //sets css to flash the winning boxes
@@ -97,6 +100,7 @@ function combinations(num1,num2,num3){ //takes the spots of the gameboard as num
 
     if (gameBoardArray[num1] =="O" && gameBoardArray[num2] =="O" && gameBoardArray[num3] =="O"){
         status.innerText="Player 2 Wins";
+        player2.score+=1;
         createResetButton();
         player2.result = "Win";
         htmlBoxes[num1].className = "blink_me2"; //sets css to flash the winning boxes
@@ -105,6 +109,8 @@ function combinations(num1,num2,num3){ //takes the spots of the gameboard as num
         
     }
 
+    document.getElementById("p1Score").innerText = `Score = ${player1.score}`; // Updates the scoreboard
+    document.getElementById("p2Score").innerText = `Score = ${player2.score}`;
 }
 
 function createResetButton(){ //Creates a play again button
